@@ -4,7 +4,7 @@
 
 body {
   font-family: sans-serif;
-  margin: 20px;
+  margin: 0;
   padding: 0;
 }
 
@@ -46,16 +46,6 @@ ul {
   padding-inline-start: 20px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-}
-
 .square {
   background: #fff;
   border: 1px solid #999;
@@ -63,12 +53,13 @@ body {
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
   text-align: center;
-  width: 34px;
+  flex: 1;
+}
+
+.board-row {
+  display: flex;
+  flex: 1;
 }
 
 .board-row:after {
@@ -77,12 +68,29 @@ body {
   display: table;
 }
 
+.board {
+  width: 50vmin;
+  height: 50vmin;
+  display: flex;
+  flex-direction: column;
+}
+
 .status {
   margin-bottom: 10px;
 }
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .game-info {
