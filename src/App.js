@@ -99,7 +99,7 @@ export default function Game() {
                       `Return to start`;
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>
+        <button className="move-btn" onClick={() => jumpTo(move)}>
           {description}
         </button>
       </li>
