@@ -94,12 +94,18 @@ export default function Game() {
   }
 
   const moves = history.map((squares, move) => {
+    let descriptionStart = move === currentMove ?
+                          "You're now on " :
+                          "Return to "
     let description = move > 0 ?
-                      `Return to move №${move}` :
-                      `Return to start`;
+                      `${descriptionStart}move №${move}` :
+                      `${descriptionStart}start`;
     return (
       <li key={move}>
-        <button className="move-btn" onClick={() => jumpTo(move)}>
+        <button 
+          className="move-btn" 
+          disabled={move === currentMove}
+          onClick={() => jumpTo(move)}>
           {description}
         </button>
       </li>
@@ -146,7 +152,6 @@ function calculateWinner(squares) {
 
 /*
 TODO:
-  Для текущего хода "вы находитесь на" вместо кнопки;
   Переписать Board, чтобы для создания квадратов использовалось два цикла;
   При выигрыше выделять победные три клетки (зачёркивать);
   При ничьей выводить ничейный результат (всплывающие окна React);
