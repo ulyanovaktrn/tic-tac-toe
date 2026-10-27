@@ -106,5 +106,14 @@ ul {
 .move-btn {
   border-radius: 10px;
   background-color: rgba(27, 181, 35, 0.3);
-  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+ol {
+  padding-inline-start: 20px;
+  padding-inline-end: 20px;
+}
+
+ol li{
+  list-style-type: none;
 }
