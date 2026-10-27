@@ -99,7 +99,7 @@ export default function Game() {
                       `Return to start`;
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>
+        <button className="move-btn" onClick={() => jumpTo(move)}>
           {description}
         </button>
       </li>
@@ -142,3 +142,13 @@ function calculateWinner(squares) {
   }
   return null;
 }
+
+
+/*
+TODO:
+  Для текущего хода "вы находитесь на" вместо кнопки;
+  Переписать Board, чтобы для создания квадратов использовалось два цикла;
+  При выигрыше выделять победные три клетки (зачёркивать);
+  При ничьей выводить ничейный результат (всплывающие окна React);
+  В истории ходов отображать (row, col) хода
+*/
