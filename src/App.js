@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+
 function Square({ value, onSquareClick }) {
   return (
   <button className="square" onClick={onSquareClick}>
@@ -17,9 +18,18 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   const winner = calculateWinner(squares);
-  let status = winner ?
-              `Congrats to ${winner}!` :
-              `Now ${xIsNext ? "X" : "O"} turn!`;
+  let status;
+  let x1, x2, y1, y2;
+  if (winner) {
+     status = `Congrats to ${winner[0]}!`;
+     let diff = winner[2] - winner[1];
+     x1 = diff === 6 ? 16.7 * (1 + 2 * winner[1]) : 0;
+     x2 = diff === 6 ? x1 : 100;
+     y1 = (diff === 6 || diff === 8) ? 0 : diff === 4 ? 100 : 16.7 * (1 + 2 * (winner[1] / 3));
+     y2 = (diff === 6 || diff === 8) ? 100 : diff === 4 ? 0 : y1;
+  } else {
+    status = `Now ${xIsNext ? "X" : "O"} turn!`;
+  }
   
   return (
     <>
@@ -35,8 +45,25 @@ function Board({ xIsNext, squares, onPlay }) {
             ))}
           </div>
         ))}
+        {
+          winner &&  
+          <WinLine 
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+          />
+        }
       </div>
     </>
+  );
+}
+
+function WinLine({ x1, y1, x2, y2 }) {
+  return (
+    <svg className="win-line" viewBox="0 0 100 100">
+      <line x1={x1} y1={y1} x2={x2} y2={y2} />
+    </svg>
   );
 }
 
@@ -112,7 +139,7 @@ function calculateWinner(squares) {
     if (squares[a] &&
       squares[a] === squares[b] &&
       squares[b] === squares[c]
-    ) return squares[a];
+    ) return [squares[a], a, c];
   }
   return null;
 }
@@ -120,8 +147,6 @@ function calculateWinner(squares) {
 
 /*
 TODO:
-  Переписать Board, чтобы для создания квадратов использовалось два цикла;
-  При выигрыше выделять победные три клетки (зачёркивать);
   При ничьей выводить ничейный результат (всплывающие окна React);
   В истории ходов отображать (row, col) хода
 */

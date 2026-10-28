@@ -69,6 +69,7 @@ ul {
 }
 
 .board {
+  position: relative;
   width: 50vmin;
   height: 50vmin;
   display: flex;
@@ -78,6 +79,7 @@ ul {
 .status {
   margin-bottom: 10px;
 }
+
 .game {
   position: relative;
   width: 100%;
@@ -122,4 +124,15 @@ ol {
 
 ol li{
   list-style-type: none;
+}
+
+.win-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: red;
+  stroke-width: 1%;
+  stroke-linecap: round;
+  pointer-events: none;
 }
