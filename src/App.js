@@ -9,6 +9,14 @@ function Square({ value, onSquareClick }) {
   );
 }
 
+function WinLine({ x1, y1, x2, y2 }) {
+  return (
+    <svg className="win-line" viewBox="0 0 100 100">
+      <line x1={x1} y1={y1} x2={x2} y2={y2} />
+    </svg>
+  );
+}
+
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) return;
@@ -20,15 +28,21 @@ function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
   let status;
   let x1, x2, y1, y2;
-  if (winner) {
-     status = `Congrats to ${winner[0]}!`;
-     let diff = winner[2] - winner[1];
-     x1 = diff === 6 ? 16.7 * (1 + 2 * winner[1]) : 0;
-     x2 = diff === 6 ? x1 : 100;
-     y1 = (diff === 6 || diff === 8) ? 0 : diff === 4 ? 100 : 16.7 * (1 + 2 * (winner[1] / 3));
-     y2 = (diff === 6 || diff === 8) ? 100 : diff === 4 ? 0 : y1;
-  } else {
-    status = `Now ${xIsNext ? "X" : "O"} turn!`;
+  switch (winner) {
+    case null:
+      status = `Now ${xIsNext ? "X" : "O"} turn!`;
+      break;
+    case -1:
+      status = `The game ended in a tie!`;
+      break;
+    default:
+      status = `Congrats to ${winner[0]}!`;
+      let diff = winner[2] - winner[1];
+      x1 = diff === 6 ? 16.7 * (1 + 2 * winner[1]) : 0;
+      x2 = diff === 6 ? x1 : 100;
+      y1 = (diff === 6 || diff === 8) ? 0 : diff === 4 ? 100 : 16.7 * (1 + 2 * (winner[1] / 3));
+      y2 = (diff === 6 || diff === 8) ? 100 : diff === 4 ? 0 : y1;
+      break;
   }
   
   return (
@@ -56,14 +70,6 @@ function Board({ xIsNext, squares, onPlay }) {
         }
       </div>
     </>
-  );
-}
-
-function WinLine({ x1, y1, x2, y2 }) {
-  return (
-    <svg className="win-line" viewBox="0 0 100 100">
-      <line x1={x1} y1={y1} x2={x2} y2={y2} />
-    </svg>
   );
 }
 
@@ -141,12 +147,11 @@ function calculateWinner(squares) {
       squares[b] === squares[c]
     ) return [squares[a], a, c];
   }
-  return null;
+  return squares.includes(null) ? null : -1;
 }
 
 
 /*
 TODO:
-  При ничьей выводить ничейный результат (всплывающие окна React);
   В истории ходов отображать (row, col) хода
 */
