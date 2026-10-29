@@ -22,7 +22,7 @@ function Board({ xIsNext, squares, onPlay }) {
     if (squares[i] || calculateWinner(squares)) return;
     const nextSquares = squares.slice();
     xIsNext ? nextSquares[i] = "X" : nextSquares[i] = "O";
-    onPlay(nextSquares);
+    onPlay(nextSquares, i);
   }
 
   const winner = calculateWinner(squares);
@@ -77,16 +77,25 @@ export default function Game() {
   const [history, setHistory] = useState([
     Array(9).fill(null),
   ]);
+  const [coordsHistory, setCoordsHistory] = useState([
+    Array(2).fill(null),
+  ]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
-  function handlePlay(nextSquares) {
+  function handlePlay(nextSquares, i) {
     const nextHistory = [
       ...history.slice(0, currentMove + 1),
       nextSquares,
     ];
+    const nextCoordsHistory = [
+      ...coordsHistory.slice(0, currentMove + 1),
+      [Math.floor(i / 3) + 1, i % 3 + 1],
+    ];
+    console.log(coordsHistory);
     setHistory(nextHistory);
+    setCoordsHistory(nextCoordsHistory);
     setCurrentMove(nextHistory.length - 1);
   }
 
@@ -99,7 +108,7 @@ export default function Game() {
                           "You're now on " :
                           "Return to "
     let description = move > 0 ?
-                      `${descriptionStart}move №${move}` :
+                      `${descriptionStart}move №${move} (${coordsHistory[move][0]}, ${coordsHistory[move][1]})` :
                       `${descriptionStart}start`;
     return (
       <li key={move}>
@@ -149,9 +158,3 @@ function calculateWinner(squares) {
   }
   return squares.includes(null) ? null : -1;
 }
-
-
-/*
-TODO:
-  В истории ходов отображать (row, col) хода
-*/
